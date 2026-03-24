@@ -103,7 +103,7 @@ public class DebugProxyHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause){
-        log.error(cause.getMessage());
-        log.error(cause.getCause().toString());
+        log.error("Error", cause);
+        ctx.close();
     }
 }
