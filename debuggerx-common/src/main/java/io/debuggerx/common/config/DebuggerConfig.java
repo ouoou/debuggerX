@@ -25,12 +25,17 @@ public class DebuggerConfig {
      * 调试器代理端口
      */
     private int debuggerProxyPort;
+    /**
+     * Bridge 服务监听端口
+     */
+    private int bridgeServerPort;
     
     public static DebuggerConfig getDefault() {
         return DebuggerConfig.builder()
                 .jvmServerHost("localhost")
                 .jvmServerPort(5005)
                 .debuggerProxyPort(55005)
+                .bridgeServerPort(56005)
                 .build();
     }
 
@@ -38,6 +43,7 @@ public class DebuggerConfig {
     public String toString() {
         return "DebuggerConfig{" + "jvmServerPort=" + jvmServerPort +
                 ", debuggerProxyPort=" + debuggerProxyPort +
+                ", bridgeServerPort=" + bridgeServerPort +
                 '}';
     }
 }

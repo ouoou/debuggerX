@@ -7,6 +7,7 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.ConsoleAppender;
 import io.debuggerx.bootstrap.config.BootstrapConfig;
+import io.debuggerx.bridge.server.BridgeServer;
 import io.debuggerx.common.config.DebuggerConfig;
 import io.debuggerx.transport.server.DebugProxyServer;
 import lombok.extern.slf4j.Slf4j;
@@ -66,6 +67,8 @@ public class DebuggerXBootstrap {
             overrideConfig(config);
 
             // 创建并启动服务器
+            BridgeServer bridgeServer = new BridgeServer(config);
+            bridgeServer.start();
             DebugProxyServer server = new DebugProxyServer(config);
             server.start();
         } catch (InterruptedException e) {
@@ -88,6 +91,11 @@ public class DebuggerXBootstrap {
         String debuggerProxyPort = System.getProperty(DebuggerConfig.Fields.debuggerProxyPort);
         if (StringUtils.isNotEmpty(debuggerProxyPort)) {
             config.setDebuggerProxyPort(Integer.parseInt(debuggerProxyPort));
+        }
+
+        String bridgeServerPort = System.getProperty(DebuggerConfig.Fields.bridgeServerPort);
+        if (StringUtils.isNotEmpty(bridgeServerPort)) {
+            config.setBridgeServerPort(Integer.parseInt(bridgeServerPort));
         }
     }
 }

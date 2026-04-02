@@ -16,6 +16,10 @@
             <groupId>io.debuggerx</groupId>
             <artifactId>debuggerx-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.debuggerx</groupId>
+            <artifactId>debuggerx-bridge</artifactId>
+        </dependency>
     </dependencies>
 
     <properties>

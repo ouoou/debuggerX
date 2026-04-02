@@ -51,12 +51,19 @@ public class DebugProxyHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         if (msg instanceof byte[] && new String((byte[]) msg).equals(JdwpConstants.HANDSHAKE_STRING)) {
             handleHandshake(ctx);
+            // 让后续入站处理器（如 bridge 转发器）也能看到握手字节
+            ctx.fireChannelRead(msg);
             return;
         }
         
         if (msg instanceof JdwpPacket) {
             handlePacket(ctx, (JdwpPacket) msg);
+            // 让后续入站处理器（如 bridge 转发器）也能看到解析完成后的 JDWP 包
+            ctx.fireChannelRead(msg);
+            return;
         }
+
+        ctx.fireChannelRead(msg);
     }
 
     private void handleHandshake(ChannelHandlerContext ctx) {
@@ -103,7 +110,7 @@ public class DebugProxyHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause){
-        log.error(cause.getMessage());
-        log.error(cause.getCause().toString());
+        log.error("[DebugProxyHandleException]:", cause);
+        channelInactive(ctx);
     }
 }

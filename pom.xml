@@ -13,6 +13,7 @@
         <module>debuggerx-common</module>
         <module>debuggerx-protocol</module>
         <module>debuggerx-core</module>
+        <module>debuggerx-bridge</module>
         <module>debuggerx-transport</module>
         <module>debuggerx-bootstrap</module>
     </modules>
@@ -43,6 +44,11 @@
             <dependency>
                 <groupId>io.debuggerx</groupId>
                 <artifactId>debuggerx-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.debuggerx</groupId>
+                <artifactId>debuggerx-bridge</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

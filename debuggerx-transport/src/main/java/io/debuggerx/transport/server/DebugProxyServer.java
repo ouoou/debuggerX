@@ -5,6 +5,8 @@ import io.debuggerx.common.enums.ConnectionType;
 import io.debuggerx.common.utils.AssertUtils;
 import io.debuggerx.transport.codec.JdwpPacketDecoder;
 import io.debuggerx.transport.codec.JdwpPacketEncoder;
+import io.debuggerx.transport.handler.BridgeForwardClientToBridgeHandler;
+import io.debuggerx.transport.handler.BridgeForwardJvmToBridgeHandler;
 import io.debuggerx.transport.handler.DebugProxyHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
@@ -85,6 +87,7 @@ public class DebugProxyServer {
                     protected void initChannel(SocketChannel ch) {
                         ch.pipeline()
                                 .addLast(new JdwpPacketDecoder())
+                                .addLast(new BridgeForwardClientToBridgeHandler())
                                 .addLast(new JdwpPacketEncoder())
                                 .addLast(debugProxyHandler);
                     }
@@ -104,7 +107,8 @@ public class DebugProxyServer {
                         ch.pipeline()
                                 .addLast(new JdwpPacketDecoder())
                                 .addLast(new JdwpPacketEncoder())
-                                .addLast(new DebugProxyHandler(ConnectionType.JVM_SERVER));
+                                .addLast(new DebugProxyHandler(ConnectionType.JVM_SERVER))
+                                .addLast(new BridgeForwardJvmToBridgeHandler());
                     }
                 });
     }
